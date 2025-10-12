@@ -1,0 +1,5 @@
+{
+  "server_name": "TeamServer",
+  "option": "git_insight",
+  "workdir": "./data/sample_repo"        // path to analyze (repo or project root)
+}
