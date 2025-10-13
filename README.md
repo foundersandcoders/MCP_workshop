@@ -26,7 +26,28 @@ For example:
 
 ---
 
-## 2️⃣ Initialize sample repo (optional)
+## 2️⃣ Set up your environment
+
+Create and activate a virtual environment in the project folder:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+* Use `python3` instead of `python` if your system requires it.
+* On Windows PowerShell run: `python -m venv .venv; .\.venv\Scripts\Activate`.
+* In VS Code select the `.venv` interpreter when prompted.
+
+Install `fastmcp` inside the virtual environment:
+
+```bash
+pip install fastmcp
+```
+
+---
+
+## 3️⃣ Initialize sample repo (optional)
 
 If you don’t have a repo ready:
 
@@ -42,16 +63,34 @@ Then set in `config.json`:
 
 ---
 
-## 3️⃣ Run and test in MCP Inspector
+## 4️⃣ Run and test in MCP Inspector
 
 ### A. Launch Inspector
 
 ```bash
 npx @modelcontextprotocol/inspector python server.py
 ```
+```bash
+npx @modelcontextprotocol/inspector python3 server.py
+```
 
 Inspector opens at **[http://localhost:5173](http://localhost:5173)**.
 You’ll see your server name and list of tools.
+
+
+**If the previous Inspector instance gets stuck:**
+
+macOS/Linux:
+
+```pkill -f "@modelcontextprotocol/inspector"```
+
+
+Windows PowerShell:
+
+```Get-Process | Where-Object { $_.Path -like "*@modelcontextprotocol*" } | Stop-Process```
+
+In the Inspector connection form set **Server Command** to `python` (or `python3`).
+
 
 ### B. Verify connection
 
