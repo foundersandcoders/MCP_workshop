@@ -9,10 +9,11 @@ over JSON-RPC (stdio). Clients can discover and call them immediately.
 
 import os
 from fastmcp import FastMCP
-from utils.weather_utils import get_weather, get_coordinates
+# from utils.weather_utils import get_weather, get_coordinates
+from utils.codebase_utils import list_files
 
 # ---- register the server ----
-mcp = FastMCP("WorkshopServer")
+mcp = FastMCP("CodebaseNavigator")
 
 
 @mcp.tool()
@@ -21,14 +22,27 @@ def ping() -> dict:
     return {"ok": True, "message": "Server is running"}
 
 
-@mcp.tool()
-def weather(city: str) -> dict:
-    """Get current weather for a city using Open-Meteo API"""
+# ---- Weather tools (commented out) ----
+# @mcp.tool()
+# def weather(city: str) -> dict:
+#     """Get current weather for a city using Open-Meteo API"""
+#     coords = get_coordinates(city)
+#     if "error" in coords:
+#         return coords
+#     return get_weather(coords["latitude"], coords["longitude"])
 
-    coords = get_coordinates(city)
-    if "error" in coords:
-        return coords
-    return get_weather(coords["latitude"], coords["longitude"])
+
+# ---- Codebase Navigator tools ----
+@mcp.tool()
+def list_directory(directory: str = ".", extension: str = None) -> dict:
+    """
+    List directory contents with optional extension filtering
+
+    Args:
+        directory: Relative path from PROJECT_ROOT (default: ".")
+        extension: Filter by file extension (e.g., ".py", ".js")
+    """
+    return list_files(directory, extension)
 
 
 if __name__ == "__main__":

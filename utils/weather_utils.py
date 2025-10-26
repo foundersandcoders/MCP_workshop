@@ -4,10 +4,8 @@ import requests
 def get_coordinates(city: str) -> dict:
     """
     Fetch geographical coordinates for a city using Open-Meteo Geocoding API
-
     Args:
         city (str): Name of the city
-
     Returns:
         Dictionary with longitude and latitude
     """
@@ -32,10 +30,8 @@ def get_coordinates(city: str) -> dict:
 def get_weather(lat: float, long: float) -> dict:
     """
     Fetch current weather data for a Geographical coordinates using Open-Meteo API
-
     Args:
         Longitude and Latitude
-
     Returns:
         Dictionary with weather information
     """
