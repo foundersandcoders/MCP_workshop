@@ -63,3 +63,43 @@ def list_files(directory: str = ".") -> dict:
         }
     except PermissionError:
         return {"error": f"Permission denied: {directory}"}
+
+
+def read_file(file_path: str) -> dict:
+    """
+    Read file contents
+
+    Args:
+        file_path: Relative path to file from PROJECT_ROOT
+
+    Returns:
+        Dictionary with file contents and metadata
+    """
+    project_root = get_project_root()
+    target_file = (project_root / file_path).resolve()
+
+    # Security check: ensure we stay within project root
+    try:
+        target_file.relative_to(project_root)
+    except ValueError:
+        return {"error": "Access denied: path outside project root"}
+
+    if not target_file.exists():
+        return {"error": f"File not found: {file_path}"}
+
+    if not target_file.is_file():
+        return {"error": f"Not a file: {file_path}"}
+
+    try:
+        content = target_file.read_text()
+        return {
+            "file_path": str(file_path),
+            "absolute_path": str(target_file),
+            "content": content,
+            "size": len(content),
+            "lines": len(content.splitlines())
+        }
+    except PermissionError:
+        return {"error": f"Permission denied: {file_path}"}
+    except UnicodeDecodeError:
+        return {"error": f"Cannot read file (not text): {file_path}"}

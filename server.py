@@ -11,7 +11,7 @@ import os
 from fastmcp import FastMCP
 
 # from utils.weather_utils import get_weather, get_coordinates
-from utils.codebase_utils import list_files
+from utils.codebase_utils import list_files, read_file
 
 # ---- register the server ----
 mcp = FastMCP("CodebaseNavigator")
@@ -43,6 +43,17 @@ def list_directory(directory: str = ".") -> dict:
         directory: Relative path from PROJECT_ROOT (default: ".")
     """
     return list_files(directory)
+
+
+@mcp.tool()
+def read_code_file(file_path: str) -> dict:
+    """
+    Read file contents
+
+    Args:
+        file_path: Relative path to file from PROJECT_ROOT
+    """
+    return read_file(file_path)
 
 
 if __name__ == "__main__":
