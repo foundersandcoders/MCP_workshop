@@ -1,121 +1,44 @@
-# 🧰 Developer MCP Server — Pre-Lunch Workshop
+# MCP Server Workshop
 
-## 1️⃣ Choose your server type
+## Setup
 
-Open `config.json` and set:
-
-```json
-{
-  "server_name": "TeamServer",
-  "option": "git_insight",      // or "dep_health" or "proj_map"
-  "workdir": "./data/sample_repo"
-}
-```
-
-* `git_insight` → analyze commits and authors
-* `dep_health` → check dependencies & vulnerabilities
-* `proj_map` → explore project structure
-
-You can use the provided sample repo (./data/sample_repo)
-or point "workdir" to any local project folder on your machine.
-For example:
-
-```json
-"workdir": "/Users/you/dev/my-project"
-```
-
----
-
-## 2️⃣ Set up your environment
-
-Create and activate a virtual environment in the project folder:
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-* Use `python3` instead of `python` if your system requires it.
-* On Windows PowerShell run: `python -m venv .venv; .\.venv\Scripts\Activate`.
-* In VS Code select the `.venv` interpreter when prompted.
+Use `python3` if needed. On Windows: `.\.venv\Scripts\Activate`
 
-Install `fastmcp` inside the virtual environment:
+Install dependencies:
 
 ```bash
-pip install fastmcp
+pip install -r requirements.txt
 ```
 
----
+## Test with MCP Inspector
 
-## 3️⃣ Initialize sample repo (optional)
-
-If you don’t have a repo ready:
-
-```bash
-bash scripts/init_sample_repo.sh
-```
-
-Then set in `config.json`:
-
-```json
-"workdir": "./data/sample_repo"
-```
-
----
-
-## 4️⃣ Run and test in MCP Inspector
-
-### A. Launch Inspector
+Launch Inspector:
 
 ```bash
 npx @modelcontextprotocol/inspector python server.py
 ```
-```bash
-npx @modelcontextprotocol/inspector python3 server.py
-```
 
-Inspector opens at **[http://localhost:5173](http://localhost:5173)**.
-You’ll see your server name and list of tools.
+Inspector opens at [http://localhost:5173](http://localhost:5173)
 
+Test the tools:
+1. Run `ping` → returns `{"ok": true, "message": "Server is running"}`
+2. Run `weather` with a city name (e.g., "London")
 
-**If the previous Inspector instance gets stuck:**
+## Troubleshooting
 
-macOS/Linux:
-
-```pkill -f "@modelcontextprotocol/inspector"```
-
-
-Windows PowerShell:
-
-```Get-Process | Where-Object { $_.Path -like "*@modelcontextprotocol*" } | Stop-Process```
-
-In the Inspector connection form set **Server Command** to `python` (or `python3`).
-
-
-### B. Verify connection
-
-1. Run **`ping`** → should return `{ "ok": true, ... }`.
-2. Call one of your option tools:
-
-   * **git_insight:** `git_list_commits`, `git_top_authors`
-   * **dep_health:** `deps_list_outdated`, `deps_vulnerabilities`
-   * **proj_map:** `pm_list_directories`, `pm_count_filetypes`
-
-### C. If Inspector doesn’t auto-launch
-
-Run the server manually:
+If Inspector gets stuck:
 
 ```bash
-python server.py
+# macOS/Linux
+pkill -f "@modelcontextprotocol/inspector"
+
+# Windows
+Get-Process | Where-Object { $_.Path -like "*@modelcontextprotocol*" } | Stop-Process
 ```
-
-Then in Inspector:
-
-* **Server Command:** `python`
-* **Arguments:** `server.py`
-* Click **Connect**
-
----
-
-✅ **Goal:** By lunch, your MCP server returns valid JSON for at least two tools.
-Another team should be able to connect and call your tools in Inspector.
