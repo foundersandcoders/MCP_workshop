@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 
 def get_project_root() -> Path:
@@ -13,13 +17,12 @@ def get_project_root() -> Path:
     return Path(root).resolve()
 
 
-def list_files(directory: str = ".", extension: str = None) -> dict:
+def list_files(directory: str = ".") -> dict:
     """
-    List directory contents with optional extension filtering
+    List directory contents
 
     Args:
         directory: Relative path from PROJECT_ROOT (default: ".")
-        extension: Filter by file extension (e.g., ".py", ".js")
 
     Returns:
         Dictionary with files and directories lists
@@ -45,17 +48,18 @@ def list_files(directory: str = ".", extension: str = None) -> dict:
     try:
         for item in sorted(target_dir.iterdir()):
             if item.is_file():
-                if extension is None or item.suffix == extension:
-                    files.append(item.name)
+                files.append(item.name)
             elif item.is_dir():
                 directories.append(item.name)
 
         return {
             "directory": str(directory),
+            "absolute_path": str(target_dir),
+            "project_root": str(project_root),
             "files": files,
             "directories": directories,
             "total_files": len(files),
-            "total_directories": len(directories)
+            "total_directories": len(directories),
         }
     except PermissionError:
         return {"error": f"Permission denied: {directory}"}

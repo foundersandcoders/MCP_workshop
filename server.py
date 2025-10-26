@@ -9,6 +9,7 @@ over JSON-RPC (stdio). Clients can discover and call them immediately.
 
 import os
 from fastmcp import FastMCP
+
 # from utils.weather_utils import get_weather, get_coordinates
 from utils.codebase_utils import list_files
 
@@ -34,15 +35,14 @@ def ping() -> dict:
 
 # ---- Codebase Navigator tools ----
 @mcp.tool()
-def list_directory(directory: str = ".", extension: str = None) -> dict:
+def list_directory(directory: str = ".") -> dict:
     """
-    List directory contents with optional extension filtering
+    List directory contents
 
     Args:
         directory: Relative path from PROJECT_ROOT (default: ".")
-        extension: Filter by file extension (e.g., ".py", ".js")
     """
-    return list_files(directory, extension)
+    return list_files(directory)
 
 
 if __name__ == "__main__":
