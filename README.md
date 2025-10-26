@@ -1,40 +1,44 @@
-# Stage 01: Implement list_directory
+# Stage 02: Codebase Navigator Tools
 
-## What's implemented
+## Tools Overview
 
-This stage implements the first codebase navigator tool:
+- `search_code` - Search text across files
+- `locate_function` - Locate function definitions
+- `get_imports` - Extract import statements
+- Stretch: `get_file_structure` - Parse file outline
 
-- `list_directory(directory=".")` - List files and directories
-- Uses `PROJECT_ROOT` from `.env` file (defaults to current directory)
+---
 
-## Test with MCP Inspector
+## 1. search_code
 
-Launch Inspector:
+Simple text search (case-insensitive) across all files recursively.
 
-```bash
-npx @modelcontextprotocol/inspector python3 server.py
+**Test examples:**
+```
+search_code(pattern="def")
+search_code(pattern="tool", directory="utils")
 ```
 
-Inspector opens at [http://localhost:5173](http://localhost:5173)
+---
 
-**Test the tools:**
+## 2. locate_function
 
-1. `ping` → returns `{"ok": true, "message": "Server is running"}`
-2. `list_directory()` → lists files in PROJECT_ROOT
-3. `list_directory(directory="utils")` → lists files in utils folder
+Locate where a function is defined.
 
-**Understanding the response:**
-- `directory`: The relative path you passed in
-- `absolute_path`: The actual full path being listed
-- `project_root`: The PROJECT_ROOT from `.env` file
-- `files` and `directories`: Contents found
-
-## Optional: Configure PROJECT_ROOT
-
-Copy `.env.example` to `.env` and set your project root:
-
+**Test examples:**
 ```
-PROJECT_ROOT=.
+locate_function(function_name="list_files")
+locate_function(function_name="ping", directory=".")
 ```
 
-All paths in tools are relative to this root.
+---
+
+## 3. get_imports
+
+Extract all import statements from Python files.
+
+**Test examples:**
+```
+get_imports()
+get_imports(directory="utils")
+```
