@@ -1,0 +1,16 @@
+{
+  "name": "security-test-project",
+  "version": "1.0.0",
+  "description": "Sample project for testing dependency security scanning",
+  "dependencies": {
+    "lodash": "4.17.15",
+    "express": "4.16.1",
+    "moment": "2.24.0",
+    "axios": "0.18.0",
+    "jquery": "3.3.1"
+  },
+  "devDependencies": {
+    "webpack": "4.29.0",
+    "babel-core": "6.26.3"
+  }
+}
