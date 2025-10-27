@@ -5,7 +5,7 @@
 - `search_code` - Search text across files
 - `locate_function` - Locate function definitions
 - `get_imports` - Extract import statements
-- Stretch: `get_file_structure` - Parse file outline
+- `parse_file_structure` - Parse file outline (classes, functions, methods)
 
 ---
 
@@ -42,3 +42,20 @@ Extract all import statements from Python files.
 get_imports()
 get_imports(directory="utils")
 ```
+
+---
+
+## 4. parse_file_structure
+
+Parse Python file to extract classes, functions, and methods with their line numbers.
+
+**Test examples:**
+```
+parse_file_structure(file_path="server.py")
+parse_file_structure(file_path="utils/codebase_utils.py")
+```
+
+**Response includes:**
+- `classes`: Array of classes with their methods
+- `functions`: Array of top-level functions
+- `class_count` and `function_count`: Summary counts

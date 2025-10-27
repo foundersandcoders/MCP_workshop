@@ -288,3 +288,90 @@ def find_imports(directory: str = ".") -> dict:
         "total_imports": sum(r["import_count"] for r in results),
         "results": results
     }
+
+
+def get_file_structure(file_path: str) -> dict:
+    """
+    Parse file outline (classes, functions, methods)
+
+    Args:
+        file_path: Relative path to file from PROJECT_ROOT
+
+    Returns:
+        Dictionary with file structure
+    """
+    project_root = get_project_root()
+    target_file = (project_root / file_path).resolve()
+
+    # Security check
+    try:
+        target_file.relative_to(project_root)
+    except ValueError:
+        return {"error": "Access denied: path outside project root"}
+
+    if not target_file.exists():
+        return {"error": f"File not found: {file_path}"}
+
+    if not target_file.is_file():
+        return {"error": f"Not a file: {file_path}"}
+
+    if not str(target_file).endswith('.py'):
+        return {"error": "Only Python files are supported"}
+
+    try:
+        content = target_file.read_text()
+        structure = {
+            "classes": [],
+            "functions": []
+        }
+
+        current_class = None
+        indent_level = 0
+
+        for line_num, line in enumerate(content.splitlines(), 1):
+            stripped = line.strip()
+
+            # Count leading spaces to determine indentation
+            leading_spaces = len(line) - len(line.lstrip())
+
+            # Class definition
+            if stripped.startswith("class "):
+                class_name = stripped.split("(")[0].replace("class ", "").strip().rstrip(":")
+                current_class = {
+                    "name": class_name,
+                    "line": line_num,
+                    "methods": []
+                }
+                structure["classes"].append(current_class)
+                indent_level = leading_spaces
+
+            # Function/Method definition
+            elif stripped.startswith("def "):
+                func_name = stripped.split("(")[0].replace("def ", "").strip()
+
+                # If we're inside a class (indented relative to class definition)
+                if current_class and leading_spaces > indent_level:
+                    current_class["methods"].append({
+                        "name": func_name,
+                        "line": line_num
+                    })
+                else:
+                    # Top-level function
+                    current_class = None  # Reset class context
+                    structure["functions"].append({
+                        "name": func_name,
+                        "line": line_num
+                    })
+
+        return {
+            "file": str(file_path),
+            "classes": structure["classes"],
+            "functions": structure["functions"],
+            "class_count": len(structure["classes"]),
+            "function_count": len(structure["functions"])
+        }
+
+    except PermissionError:
+        return {"error": f"Permission denied: {file_path}"}
+    except UnicodeDecodeError:
+        return {"error": f"Cannot read file (not text): {file_path}"}

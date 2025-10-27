@@ -11,7 +11,14 @@ import os
 from fastmcp import FastMCP
 
 # from utils.weather_utils import get_weather, get_coordinates
-from utils.codebase_utils import list_files, read_file, search_in_files, find_function, find_imports
+from utils.codebase_utils import (
+    list_files,
+    read_file,
+    search_in_files,
+    find_function,
+    find_imports,
+    get_file_structure,
+)
 
 # ---- register the server ----
 mcp = FastMCP("CodebaseNavigator")
