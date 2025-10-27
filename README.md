@@ -59,3 +59,11 @@ parse_file_structure(file_path="utils/codebase_utils.py")
 - `classes`: Array of classes with their methods
 - `functions`: Array of top-level functions
 - `class_count` and `function_count`: Summary counts
+
+## Test with MCP Inspector
+
+Launch Inspector:
+
+```bash
+npx @modelcontextprotocol/inspector python server.py
+```
