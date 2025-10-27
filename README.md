@@ -1,69 +1,101 @@
-# Stage 02: Codebase Navigator Tools
+# Stage 03: Make it accessible to Claude Code
 
-## Tools Overview
+## Prerequisites
 
-- `search_code` - Search text across files
-- `locate_function` - Locate function definitions
-- `get_imports` - Extract import statements
-- `parse_file_structure` - Parse file outline (classes, functions, methods)
+Install fastmcp globally using pipx:
 
----
-
-## 1. search_code
-
-Simple text search (case-insensitive) across all files recursively.
-
-**Test examples:**
-```
-search_code(pattern="def")
-search_code(pattern="tool", directory="utils")
+### macOS
+```bash
+brew install pipx
+pipx install fastmcp
 ```
 
----
-
-## 2. locate_function
-
-Locate where a function is defined.
-
-**Test examples:**
-```
-locate_function(function_name="list_files")
-locate_function(function_name="ping", directory=".")
+### Windows
+```powershell
+# Install pipx via pip
+pip install --user pipx
+pipx install fastmcp
 ```
 
----
+### Windows with WSL / Linux
+```bash
+# Install pipx via package manager or pip
+sudo apt install pipx  # Ubuntu/Debian
+# OR
+pip install --user pipx
 
-## 3. get_imports
-
-Extract all import statements from Python files.
-
-**Test examples:**
-```
-get_imports()
-get_imports(directory="utils")
+pipx install fastmcp
 ```
 
----
+## Add MCP server to user-wide Claude Code configuration
 
-## 4. parse_file_structure
+The key is using the `fastmcp` executable instead of direct python, which handles the isolated environment properly.
 
-Parse Python file to extract classes, functions, and methods with their line numbers.
+**Important:** Use `--scope user` to make the MCP server available globally across all projects, not just the current directory.
 
-**Test examples:**
+### macOS
+```bash
+claude mcp add codebase-navigator --scope user ~/.local/bin/fastmcp run /path/to/your/MCP_workshop/server.py
 ```
-parse_file_structure(file_path="server.py")
-parse_file_structure(file_path="utils/codebase_utils.py")
+
+### Windows
+```powershell
+claude mcp add codebase-navigator --scope user %USERPROFILE%\.local\bin\fastmcp.exe run C:\path\to\your\MCP_workshop\server.py
 ```
 
-**Response includes:**
-- `classes`: Array of classes with their methods
-- `functions`: Array of top-level functions
-- `class_count` and `function_count`: Summary counts
+### Windows with WSL / Linux
+```bash
+claude mcp add codebase-navigator --scope user ~/.local/bin/fastmcp run /path/to/your/MCP_workshop/server.py
+```
 
-## Test with MCP Inspector
-
-Launch Inspector:
+## Test the connection
 
 ```bash
-npx @modelcontextprotocol/inspector python server.py
+claude mcp list
 ```
+
+You should see:
+```
+codebase-navigator: stdio [fastmcp command] - ✓ Connected
+```
+
+## Remove if needed
+
+```bash
+claude mcp remove codebase-navigator --scope user
+```
+
+## Scopes explained
+
+- **local**: Server only available in the current project directory
+- **user**: Server available globally across all your projects (recommended)
+- **project**: Server shared with the team via `.mcp.json` file
+
+The `--scope user` flag works the same across macOS, Windows, and Linux - it stores the configuration in your user-specific Claude Code settings.
+
+## Why pipx?
+
+- **pipx** creates isolated environments for Python applications
+- Prevents dependency conflicts with your system Python
+- Makes the `fastmcp` command globally available
+- Works consistently across platforms
+
+## How it works
+
+The MCP server automatically uses the **current working directory** (where you invoke Claude Code) as the project root. This means:
+
+- When you run `claude` from `/path/to/your/project`, the MCP server will navigate that project
+- You can optionally create a `.env` file in your project with `PROJECT_ROOT=/different/path` to override this behavior
+
+### Key change
+
+In `utils/codebase_utils.py`, change from:
+```python
+root = os.getenv("PROJECT_ROOT", ".")
+```
+to:
+```python
+root = os.getenv("PROJECT_ROOT", os.getcwd())
+```
+
+This ensures the server uses the actual current working directory instead of a relative path, making it work correctly when invoked from any project directory.     

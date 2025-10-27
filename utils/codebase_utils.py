@@ -2,18 +2,22 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env file
+# Load .env file from current working directory (where Claude Code is invoked)
 load_dotenv()
 
 
 def get_project_root() -> Path:
     """
-    Get the project root directory from environment variable or use current directory
+    Get the project root directory from environment variable or use current working directory
+
+    When invoked by Claude Code, this will be the directory where Claude Code is running,
+    not where the MCP server is located.
 
     Returns:
         Path object pointing to the project root
     """
-    root = os.getenv("PROJECT_ROOT", ".")
+    # Use current working directory (where Claude Code is invoked) as default
+    root = os.getenv("PROJECT_ROOT", os.getcwd())
     return Path(root).resolve()
 
 
