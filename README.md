@@ -2,21 +2,6 @@
 
 Multi-tool MCP server with codebase navigation, security scanning, and API integration examples.
 
-## Setup
-
-Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .\.venv\Scripts\Activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Test with MCP Inspector
 
 Launch Inspector for local testing:
