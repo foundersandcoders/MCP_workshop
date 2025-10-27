@@ -42,10 +42,6 @@ claude mcp list
 - `check_security_vulnerabilities()` - Scan for known CVEs
 - `security_summary()` - Generate health reports with risk scores
 
-### Utilities
-- `ping()` - Server health check
-- `weather()` - Example API integration
-
 ## Workshop Exercise
 
 See `instructions.md` for a complete exercise on building the dependency security scanner from scratch.
