@@ -9,12 +9,10 @@ over JSON-RPC (stdio). Clients can discover and call them immediately.
 
 import os
 from fastmcp import FastMCP
-
-# from utils.weather_utils import get_weather, get_coordinates
-from utils.codebase_utils import list_files, read_file
+from utils.weather_utils import get_weather, get_coordinates
 
 # ---- register the server ----
-mcp = FastMCP("CodebaseNavigator")
+mcp = FastMCP("WorkshopServer")
 
 
 @mcp.tool()
@@ -23,37 +21,14 @@ def ping() -> dict:
     return {"ok": True, "message": "Server is running"}
 
 
-# ---- Weather tools (commented out) ----
-# @mcp.tool()
-# def weather(city: str) -> dict:
-#     """Get current weather for a city using Open-Meteo API"""
-#     coords = get_coordinates(city)
-#     if "error" in coords:
-#         return coords
-#     return get_weather(coords["latitude"], coords["longitude"])
-
-
-# ---- Codebase Navigator tools ----
 @mcp.tool()
-def list_directory(directory: str = ".") -> dict:
-    """
-    List directory contents
+def weather(city: str) -> dict:
+    """Get current weather for a city using Open-Meteo API"""
 
-    Args:
-        directory: Relative path from PROJECT_ROOT (default: ".")
-    """
-    return list_files(directory)
-
-
-@mcp.tool()
-def read_code_file(file_path: str) -> dict:
-    """
-    Read file contents
-
-    Args:
-        file_path: Relative path to file from PROJECT_ROOT
-    """
-    return read_file(file_path)
+    coords = get_coordinates(city)
+    if "error" in coords:
+        return coords
+    return get_weather(coords["latitude"], coords["longitude"])
 
 
 if __name__ == "__main__":
