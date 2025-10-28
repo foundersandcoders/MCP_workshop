@@ -1,2 +1,6 @@
 fastmcp
 requests
+anthropic
+python-dotenv
+psycopg2-binary
+sqlparse
