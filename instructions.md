@@ -1,5 +1,7 @@
 # Stage 04: Deploy to Claude Code
 
+Claude Code integration allows you to navigate and analyze any codebase directly from the terminal. Simply run `claude` from any project directory and instantly access your MCP tools to explore files, search code, and understand project structure.
+
 ## Starting Point
 
 You begin with the completed Stage 02 tools:
@@ -28,9 +30,9 @@ root = os.getenv("PROJECT_ROOT", os.getcwd())
 
 This ensures the server uses the actual directory where Claude Code is running.
 
-## Step 2: Install fastmcp globally
+## Step 2: Install fastmcp
 
-Use `pipx` to install `fastmcp` in an isolated environment. This prevents dependency conflicts with your system Python and makes the `fastmcp` command globally available:
+Use `pipx` to install `fastmcp` in an isolated environment. This prevents dependency conflicts with your system Python and makes the `fastmcp` command available from anywhere:
 
 ### macOS
 ```bash
