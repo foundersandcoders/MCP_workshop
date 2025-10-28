@@ -335,8 +335,11 @@ def generate_tests(file_path: str) -> Dict[str, Any]:
 
         # Find function definitions (Python and JavaScript)
         import re
-        py_functions = re.findall(r'def\s+(\w+)\s*\([^)]*\):', content)
-        js_functions = re.findall(r'function\s+(\w+)\s*\(|const\s+(\w+)\s*=.*=>|(\w+)\s*:\s*function', content)
+
+        py_functions = re.findall(r"def\s+(\w+)\s*\([^)]*\):", content)
+        js_functions = re.findall(
+            r"function\s+(\w+)\s*\(|const\s+(\w+)\s*=.*=>|(\w+)\s*:\s*function", content
+        )
 
         # Flatten JS matches and remove empty strings
         js_functions = [f for match in js_functions for f in match if f]
@@ -367,33 +370,10 @@ def generate_tests(file_path: str) -> Dict[str, Any]:
         response = client.messages.create(
             model="claude-3-haiku-20240307",
             max_tokens=500,
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{"role": "user", "content": prompt}],
         )
 
-        return {
-            "file_path": file_path,
-            "test_code": response.content[0].text
-        }
+        return {"file_path": file_path, "test_code": response.content[0].text}
 
     except Exception as e:
         return {"error": f"Could not generate tests: {str(e)}"}
-
-
-def check_style_guide(file_path: str, style: str = "auto") -> Dict[str, Any]:
-    """
-    Simple style checking
-    """
-    return {
-        "file_path": file_path,
-        "style_guide": style,
-        "message": "Style guide checking - implement in Stage 3",
-        "example_violations": [
-            "Line 15: Line too long (>100 characters)",
-            "Line 23: Missing docstring",
-        ],
-        "todo": [
-            "Integrate with flake8/eslint",
-            "Check naming conventions",
-            "Validate formatting rules",
-        ],
-    }

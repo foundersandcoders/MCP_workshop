@@ -161,7 +161,7 @@ Create two new functions that analyze code using simple string operations.
 - Use `enumerate(lines, 1)` to get line numbers
 - Use list comprehensions to find matching lines
 
-## Stage 3: Test & Style Helpers
+## Stage 3: Test
 
 Build two helpers that generate test templates and check basic style rules.
 
@@ -182,38 +182,6 @@ Build two helpers that generate test templates and check basic style rules.
 - Return the test code directly
 - Simple error handling
 
-### Tool 6: Style Checker
-
-#### `check_code_style(file_path: str)`
-**Goal**: Find common style violations using simple measurements.
-
-**Your task**: Build a function that:
-1. Reads file content and splits into lines
-2. Checks for common style problems
-3. Reports violations with line numbers
-
-**Style checks to implement**:
-- **Long lines**: Find lines longer than 79 characters (PEP8 standard)
-- **Bad function naming**: Look for functions that start with capital letters
-- **Missing spaces**: Find `'if('` or `'for('` (should be `'if ('`)
-- **No docstrings**: Check if file has functions but no `'"""'`
-
-**Implementation approach**:
-```
-1. Get file content and lines
-2. Create empty violations list
-3. For each style check:
-   - Measure or search for violations
-   - Add violations to list with descriptions
-4. Return results with violations and violation_count
-```
-
-**Useful techniques**:
-- `re.findall()` to extract function names
-- `enumerate(lines, 1)` to check each line with line numbers
-- `re.search()` to find patterns
-- String formatting for readable violation messages
-
 ## Testing Your Implementation
 
 Use MCP Inspector to test your tools:
@@ -223,12 +191,3 @@ npx @modelcontextprotocol/inspector python server.py
 ```
 
 Open http://localhost:5173 and test each stage progressively with the provided sample files.
-
-## Extension Ideas
-
-Once you complete all 3 stages, consider adding:
-- **Language support**: Add more file types (.java, .go, .rust)
-- **Better patterns**: More sophisticated design pattern detection
-- **Smarter tests**: Analyze function parameters for better test generation
-- **Team features**: Compare code quality across team members
-- **Git integration**: Analyze only changed files in commits
