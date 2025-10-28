@@ -22,16 +22,6 @@ def ping() -> dict:
     return {"ok": True, "message": "Server is running"}
 
 
-# ---- Weather tools ----
-# @mcp.tool()
-# def weather(city: str) -> dict:
-#     """Get current weather for a city using Open-Meteo API"""
-#     coords = get_coordinates(city)
-#     if "error" in coords:
-#         return coords
-#     return get_weather(coords["latitude"], coords["longitude"])
-
-
 # ---- Codebase Navigator tools ----
 @mcp.tool()
 def list_directory(directory: str = ".") -> dict:
