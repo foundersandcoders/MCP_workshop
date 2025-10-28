@@ -1,2 +1,4 @@
 fastmcp
 requests
+anthropic
+python-dotenv
