@@ -129,40 +129,51 @@ Run `python3 create_sample_db.py` to create these databases.
 ### Tool 4: Query Performance Analyzer
 
 #### `analyze_query_optimization(database_path: str, query: str)`
-**Goal**: Analyze query performance and suggest optimizations
+**Goal**: Tell users if their SQL query is slow and how to make it faster
 
 **Your task**: Build a function that:
-1. Executes EXPLAIN QUERY PLAN to get execution details
-2. Analyzes the execution plan for optimization opportunities
-3. Generates specific optimization suggestions
-4. Assesses query complexity
+1. Reads the file and connects to the database
+2. Runs a special command to see how SQLite will execute the query
+3. Looks for common problems that make queries slow
+4. Gives specific advice on how to fix problems
 
-**Implementation approach**:
-- Use EXPLAIN QUERY PLAN to get execution details
-- Parse execution plan for table scans, index usage
-- Generate suggestions based on plan analysis
-- Calculate complexity score based on query structure
-
-**Function structure**:
+**Simple steps to follow**:
 ```
-1. Execute EXPLAIN QUERY PLAN on the query
-2. Parse execution plan results
-3. Analyze for optimization opportunities:
-   - Table scans vs index usage
-   - Missing indexes
-   - Complex joins
-   - SELECT * usage
-4. Generate specific suggestions
-5. Calculate complexity score
-6. Return analysis with suggestions
+1. Connect to the database
+2. Run "EXPLAIN QUERY PLAN" + the user's query
+3. Read the results to find problems
+4. Count how complex the query is
+5. Write helpful suggestions
+6. Return everything in a nice format
 ```
 
-**Optimization checks to implement**:
-- **Table scans**: Flag when SCAN TABLE appears in plan
-- **Missing indexes**: Detect lack of index usage
-- **Complex queries**: Count JOINs, subqueries, etc.
-- **SELECT * usage**: Suggest specifying columns
-- **ORDER BY without LIMIT**: Flag potential performance issues
+**What problems to look for**:
+- **Slow table reading**: If you see "SCAN TABLE" in the results, the query is reading every row (very slow!)
+- **Missing speed-ups**: If there's no "USING INDEX", the database could be faster with indexes
+- **Too many JOINs**: Queries with many JOIN commands can be slow
+- **Getting all columns**: Using "SELECT *" gets data you might not need
+- **Sorting everything**: Using "ORDER BY" without "LIMIT" sorts all results (slow for big tables)
+
+**Example suggestions to give**:
+- "Add an index on the email column to speed up searches"
+- "Use SELECT name, email instead of SELECT * to get only needed data"
+- "This query looks good - no obvious performance problems found"
+
+**Test your tool with this badly optimized query**:
+```sql
+SELECT *
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+JOIN products p ON o.product_id = p.id
+WHERE c.email LIKE '%gmail%'
+ORDER BY c.name, p.price
+```
+
+This query has multiple problems your tool should catch:
+- Uses `SELECT *` (gets unnecessary data)
+- No index on email for the LIKE search
+- Joins multiple tables without indexes
+- Sorts all results without LIMIT
 
 ## Testing Your Implementation
 
