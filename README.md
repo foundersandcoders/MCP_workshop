@@ -1,22 +1,5 @@
 # MCP Server Workshop
 
-## Setup
-
-Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-Use `python3` if needed. On Windows: `.\.venv\Scripts\Activate`
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Test with MCP Inspector
 
 Launch Inspector:
@@ -25,7 +8,7 @@ Launch Inspector:
 npx @modelcontextprotocol/inspector python server.py
 ```
 
-Inspector opens at [http://localhost:5173](http://localhost:5173)
+Inspector automatically opens at [http://localhost:5173](http://localhost:5173)
 
 Test the tools:
 1. Run `ping` → returns `{"ok": true, "message": "Server is running"}`
