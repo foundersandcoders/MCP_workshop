@@ -10,7 +10,15 @@ over JSON-RPC (stdio). Clients can discover and call them immediately.
 import os
 from fastmcp import FastMCP
 
-from utils.codebase_utils import list_files, read_file
+# from utils.weather_utils import get_weather, get_coordinates
+from utils.codebase_utils import (
+    list_files,
+    read_file,
+    search_in_files,
+    find_function,
+    find_imports,
+    get_file_structure,
+)
 
 # ---- register the server ----
 mcp = FastMCP("CodebaseNavigator")
@@ -43,6 +51,41 @@ def read_code_file(file_path: str) -> dict:
         file_path: Relative path to file from PROJECT_ROOT
     """
     return read_file(file_path)
+
+
+@mcp.tool()
+def search_code(pattern: str, directory: str = ".") -> dict:
+    """
+    Search for text across files
+
+    Args:
+        pattern: Text to search for (case-insensitive)
+        directory: Relative path from PROJECT_ROOT to search in (default: ".")
+    """
+    return search_in_files(pattern, directory)
+
+
+@mcp.tool()
+def locate_function(function_name: str, directory: str = ".") -> dict:
+    """
+    Locate function definitions
+
+    Args:
+        function_name: Name of the function to find
+        directory: Relative path from PROJECT_ROOT to search in (default: ".")
+    """
+    return find_function(function_name, directory)
+
+
+@mcp.tool()
+def get_imports(directory: str = ".") -> dict:
+    """
+    Extract import statements from Python files
+
+    Args:
+        directory: Relative path from PROJECT_ROOT to search in (default: ".")
+    """
+    return find_imports(directory)
 
 
 if __name__ == "__main__":
