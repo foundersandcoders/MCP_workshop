@@ -31,20 +31,6 @@ claude mcp add code-reviewer --scope user ~/.local/bin/fastmcp run /path/to/your
 claude mcp list
 ```
 
-## Available Tools
-
-### Code Analysis (Stage 1)
-- `analyze_code_file()` - Basic metrics and structure analysis
-- `check_code_syntax()` - Syntax validation for Python/JavaScript
-
-### Pattern Detection (Stage 2)
-- `detect_code_patterns()` - Find design patterns (Manager, Factory, etc.)
-- `check_code_anti_patterns()` - Identify code smells and anti-patterns
-
-### Test Generation & Style (Stage 3)
-- `generate_test_cases()` - LLM-powered test generation
-- `check_code_style()` - Style guide validation
-
 ## Workshop Exercise
 
 See `instructions.md` for complete 3-stage workshop building code review tools from scratch.

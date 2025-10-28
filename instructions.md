@@ -34,14 +34,14 @@ claude mcp add code-reviewer --scope user ~/.local/bin/fastmcp run /path/to/your
 - Educational examples students can expand
 - Templates for more sophisticated analysis
 
-### Stage 3: Test & Style
-- Template-based test case generation
-- Simple style rule checking
+### Stage 3: Test Generation
+- LLM-powered test case generation
+- Claude API integration
 - Learning-focused implementations
 - Extension points for advanced features
 
-## Stage 1:
 
+## Stage 1: Basic Analysis
 
 ### Tool 1: Code Analyzer
 
@@ -99,7 +99,7 @@ claude mcp add code-reviewer --scope user ~/.local/bin/fastmcp run /path/to/your
 }
 ```
 
-## Stage 2: Build Pattern Detection Tools
+## Stage 2: Pattern Detection
 
 Create two new functions that analyze code using simple string operations.
 
@@ -161,9 +161,9 @@ Create two new functions that analyze code using simple string operations.
 - Use `enumerate(lines, 1)` to get line numbers
 - Use list comprehensions to find matching lines
 
-## Stage 3: Test
+## Stage 3: Test Generation
 
-Build two helpers that generate test templates and check basic style rules.
+Build an LLM-powered test generator.
 
 ### Tool 5: LLM Test Generator
 
